@@ -7,7 +7,12 @@
     <!--<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />-->
     <link href='lib/mapbox-gl.css' rel='stylesheet' />
     <style>
-        body { margin:0; padding:0; }
+        body { 
+          margin:0; 
+          padding:0; 
+          background-image: url('sanborn_texture.png');
+          background-repeat: repeat;
+        }
         #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
 </head>
@@ -19,14 +24,14 @@
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2prY3MzYngzMGNsdTNrcW0yM3doaXplOSJ9.796so4xYNFZW4UK5lOgapw';
 var map = new mapboxgl.Map({
-    style: 'mapbox://styles/mapbox/light-v9',
+    style: 'mapbox://styles/landplanner/cjke28xyx0shs2spat3u639sv',
     center: [-72.555983, 42.851027],
     zoom: 15.5,
     pitch: 60,
     bearing: -90,
     container: 'map'
 });
-
+/*
 // The 'building' layer in the mapbox-streets vector source contains building-height
 // data from OpenStreetMap.
 map.on('load', function() {
@@ -67,7 +72,7 @@ map.on('load', function() {
         }
     }, labelLayerId);
 });
-
+*/
 map.addControl(new mapboxgl.NavigationControl());
 
 </script>
