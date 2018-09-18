@@ -32,6 +32,28 @@ var map = new mapboxgl.Map({
     container: 'map',
     hash: true
 });
+
+// add controls
+map.addControl(new mapboxgl.NavigationControl());
+
+// TODO: begin a tour
+map.on('load', function() {
+  new Promise(function(resolve, reject) {
+    setTimeout(() => resolve(1), 1000);
+  }).then(function(result) {
+    //alert(result); // 1
+    return new Promise((resolve, reject) => { // (*)
+      setTimeout(() => resolve(result * 2), 1000);
+    });
+  }).then(function(result) { // (**)
+    //alert(result); // 2
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(result * 2), 1000);
+    });
+  }).then(function(result) {
+    //alert(result); // 4
+  });
+});
 /*
 // The 'building' layer in the mapbox-streets vector source contains building-height
 // data from OpenStreetMap.
@@ -74,7 +96,6 @@ map.on('load', function() {
     }, labelLayerId);
 });
 */
-map.addControl(new mapboxgl.NavigationControl());
 
 </script>
 
