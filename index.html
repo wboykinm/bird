@@ -25,12 +25,11 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2prY3MzYngzMGNsdTNrcW0yM3doaXplOSJ9.796so4xYNFZW4UK5lOgapw';
 var map = new mapboxgl.Map({
     style: 'mapbox://styles/landplanner/cjke28xyx0shs2spat3u639sv',
-    center: [-73.218285, 44.480193],
-    zoom: 15.5,
-    pitch: 60,
-    bearing: 90,
-    container: 'map',
-    hash: true
+    center: [-73.213544, 44.476507],
+    zoom: 18,
+    pitch: 0,
+    bearing: -2.8,
+    container: 'map'
 });
 
 // add controls
@@ -53,23 +52,49 @@ map.on('load', function() {
   }, '3D Buildings')
   
 // PROMISES
-/*  
   new Promise(function(resolve, reject) {
     setTimeout(() => resolve(1), 1000);
   }).then(function(result) {
-    //alert(result); // 1
+    map.flyTo({
+      //center: [0, 0],
+      zoom: 16,
+      speed: 0.2,
+      curve: 1,
+      easing(t) {
+        return t;
+      }
+    });
     return new Promise((resolve, reject) => { // (*)
       setTimeout(() => resolve(result * 2), 1000);
     });
   }).then(function(result) { // (**)
-    //alert(result); // 2
+    map.flyTo({
+      //center: [0, 0],
+      zoom: 15,
+      speed: 0.2,
+      curve: 1,
+      pitch: 50,
+      bearing: 178,
+      easing(t) {
+        return t;
+      }
+    });
     return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(result * 2), 1000);
+      setTimeout(() => resolve(result * 2), 15000);
     });
   }).then(function(result) {
-    //alert(result); // 4
+    map.flyTo({
+      //center: [0, 0],
+      zoom: 15,
+      speed: 0.1,
+      curve: 1.5,
+      pitch: 60,
+      bearing: 88,
+      easing(t) {
+        return t;
+      }
+    });
   });
-  */
 });
 </script>
 
