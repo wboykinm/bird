@@ -47,7 +47,7 @@
     "camera": {
       center: [-73.213544, 44.476507],
       zoom: 14,
-      speed: 0.05,
+      speed: 0.01,
       curve: 1.5,
       pitch: 60,
       bearing: 57
@@ -58,6 +58,78 @@
       [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 0 ]
     ]
   }]
+  
+  var route = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -73.21497201919556,
+              44.467141778662125
+            ],
+            [
+              -73.21546554565428,
+              44.47358832905586
+            ],
+            [
+              -73.21851253509521,
+              44.47351177087768
+            ],
+            [
+              -73.21874856948851,
+              44.47686492494367
+            ],
+            [
+              -73.21411371231079,
+              44.47704865384501
+            ],
+            [
+              -73.21353435516357,
+              44.47649746540553
+            ]
+          ]
+        }
+      }
+    ]
+  }
+
+  var startPoint = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -73.21497201919556,
+            44.46713603616803
+          ]
+        }
+      }
+    ]
+  }
+  var endPoint = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -73.21353435516357,
+            44.47651469012308
+          ]
+        }
+      }
+    ]
+  }
 
   mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2prY3MzYngzMGNsdTNrcW0yM3doaXplOSJ9.796so4xYNFZW4UK5lOgapw';
   var map = new mapboxgl.Map({
