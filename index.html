@@ -22,109 +22,93 @@
 <!--<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>-->
 <script src='lib/mapbox-gl.js'></script>
 <script>
-
-var speed = 1
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2prY3MzYngzMGNsdTNrcW0yM3doaXplOSJ9.796so4xYNFZW4UK5lOgapw';
-var map = new mapboxgl.Map({
-    style: 'mapbox://styles/landplanner/cjmjvl3jl074u2sru0wd4hl2n',
-    center: [-73.213544, 44.476507],
-    zoom: 19,
-    pitch: 0,
-    bearing: -2.8,
-    container: 'map'
-});
-
-// add controls
-map.addControl(new mapboxgl.NavigationControl());
-
-// TODO: begin a tour
-map.on('load', function() {
-  map.addSource('sanborn', {
-    "type": "raster",
-    "tileSize": 256,
-    "tiles": ["https://mapwarper.net/maps/tile/33964/{z}/{x}/{y}.png"]
-    //"tiles": ["https://mapwarper.net/mosaics/tile/983/{z}/{x}/{y}.png"]
-  });
-  
-  map.addLayer({
-    "id": "sanborn-tiles",
-    "type": "raster",
-    "source": "sanborn",
-    "minzoom": 0,
-    "maxzoom": 22
-  }, 'border-admin-2')
-  
-// PROMISES
-  new Promise(function(resolve, reject) {
-    setTimeout(() => resolve(1), speed * 10000);
-  }).then(function(result) {
-    map.flyTo({
-      //center: [0, 0],
+  var locations = [{
+    "id": "2",
+    "camera": {
+      center: [-73.213544, 44.476507],
       zoom: 16,
-      speed: 0.1,
-      curve: 1,
-      easing(t) {
-        return t;
-      }
-    });
-    return new Promise((resolve, reject) => { // (*)
-      setTimeout(() => resolve(result * 2), speed * 10000);
-    });
-  }).then(function(result) { // (**)
-    map.flyTo({
-      //center: [0, 0],
+      pitch: 0,
+      bearing: -2.8,
+      speed: 0.08,
+      curve: 1
+    }
+  }, {
+    "id": "3",
+    "camera": {
+      center: [-73.213544, 44.476507],
       zoom: 15,
-      speed: 0.1,
-      curve: 1,
       pitch: 50,
       bearing: 178,
-      easing(t) {
-        return t;
-      }
-    });
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(result * 2), speed * 15000);
-    });
-  }).then(function(result) {
-    map.flyTo({
-      //center: [0, 0],
+      speed: 0.05,
+      curve: 1
+    }
+  }, {
+    "id": "4",
+    "camera": {
+      center: [-73.213544, 44.476507],
       zoom: 14,
-      speed: 0.01,
+      speed: 0.05,
       curve: 1.5,
       pitch: 60,
       bearing: 57
-    });
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(result * 2), speed * 45000);
-    });
-  }).then(function(result) {
-    // Add full modern map: 
-    map.setStyle('mapbox://styles/landplanner/cjke28xyx0shs2spat3u639sv')
-    function checkStyle() {
-      if(map.isStyleLoaded() == false) {
-         window.setTimeout(checkStyle, 100); /* this checks the flag every 100 milliseconds*/
-      } else {
-        map.addSource('sanborn', {
-          "type": "raster",
-          "tileSize": 256,
-          "tiles": ["https://mapwarper.net/maps/tile/33964/{z}/{x}/{y}.png"]
-          //"tiles": ["https://mapwarper.net/mosaics/tile/983/{z}/{x}/{y}.png"]
-        });
-        map.addLayer({
-          "id": "sanborn-tiles",
-          "type": "raster",
-          "source": "sanborn",
-          "minzoom": 0,
-          "maxzoom": 16,
-          "paint": {
-            "raster-opacity": [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 0 ]
-          }
-        }, 'border-admin-2')
-      }
-    }
-    checkStyle();
+    },
+    "layers": ["bird-tiles"],
+    "repaint": [
+      "raster-opacity",
+      [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 0 ]
+    ]
+  }]
+
+  mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2prY3MzYngzMGNsdTNrcW0yM3doaXplOSJ9.796so4xYNFZW4UK5lOgapw';
+  var map = new mapboxgl.Map({
+      style: 'mapbox://styles/landplanner/cjmjvl3jl074u2sru0wd4hl2n',
+      center: [-73.213544, 44.476507],
+      zoom: 19,
+      pitch: 0,
+      bearing: -2.8,
+      container: 'map'
   });
-});
+  
+  function playback(i) {
+    // Animate the map position based on camera properties
+    map.flyTo(
+      locations[i].camera
+    );
+    map.once('moveend', function() {
+      if (locations[i].layers) {
+        for (var l = 0; l < locations[i].layers.length; l++) {
+          map.setPaintProperty(locations[i].layers[l], locations[i].repaint[0], locations[i].repaint[1]);
+        }
+      }
+      window.setTimeout(function() {
+        i = (i + 1 === locations.length) ? 0 : i + 1;
+        playback(i);
+      }, 1000);
+    });
+  }
+  
+  map.on('load', function() {
+    
+    map.addControl(new mapboxgl.NavigationControl());
+    
+    map.addSource('sanborn', {
+      "type": "raster",
+      "tileSize": 256,
+      "tiles": ["https://mapwarper.net/maps/tile/33964/{z}/{x}/{y}.png"]
+      // Sanborn:
+      //"tiles": ["https://mapwarper.net/mosaics/tile/983/{z}/{x}/{y}.png"]
+    });
+    
+    map.addLayer({
+      "id": "bird-tiles",
+      "type": "raster",
+      "source": "sanborn",
+      "minzoom": 0,
+      "maxzoom": 22
+    }, 'border-admin-2')
+    
+    playback(0);
+  });
 </script>
 
 </body>
