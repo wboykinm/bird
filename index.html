@@ -24,7 +24,7 @@
 <script src='lib/turf.min.js' charset='utf-8'></script>
 <script>
   // tune speed for testing
-  var speed = 5
+  var speed = 1
   
   // lay a navigation route
   var birdRoute = {
@@ -95,7 +95,9 @@
       bearing: 57,
       speed: 0.08 * speed,
       curve: 1
-    }
+    },
+    "layers": ["bird-route"],
+    "repaint": ["line-opacity", 0]
   }, {
     "id": "2",
     "camera": {
@@ -106,11 +108,8 @@
       speed: 0.08 * speed,
       curve: 1
     },
-    "layers": ["bird-route", "Religious", "Residential", "Special", "road-label-large", "road-label-medium", "road-label-small"],
-    "relayout": [
-      "visibility",
-      "none"
-    ]
+    "layers": ["Religious", "Residential", "Special", "road-label-large", "road-label-medium", "road-label-small"],
+    "relayout": [ "visibility", "none" ]
   }, {
     "id": "3",
     "camera": {
@@ -122,16 +121,13 @@
       curve: 1
     },
     "layers": ["Religious", "Residential", "Special"],
-    "relayout": [
-      "visibility",
-      "visible"
-    ]
+    "relayout": [ "visibility", "visible" ]
   }, {
     "id": "4",
     "camera": {
       center: [ -73.215425, 44.47358832905586 ],
-      zoom: 12,
-      speed: 0.01 * speed,
+      zoom: 13,
+      speed: 0.03 * speed,
       curve: 1.5,
       pitch: 45,
       bearing: 57
@@ -153,10 +149,7 @@
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[0]),turf.point(birdRoute.geometry.coordinates[1]))
     },
     "layers": ["bird-route"],
-    "relayout": [
-      "visibility",
-      "visible"
-    ]
+    "repaint": [ "line-opacity", 0.8 ]
   }, {
     "id": "6",
     "camera": {
@@ -286,12 +279,13 @@
         },
         "layout": {
           "line-join": "round",
-          "line-cap": "round",
-          "visibility": "none"
+          "line-cap": "round"
         },
         "paint": {
           "line-color": "#5CACEE",
-          "line-width": 12
+          "line-width": 15,
+          "line-opacity": 0,
+          "line-opacity-transition": { "duration": 1000 }
         }
     }, 'border-admin-2');
     playback(1);
