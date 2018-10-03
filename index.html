@@ -24,7 +24,7 @@
 <script src='lib/turf.min.js' charset='utf-8'></script>
 <script>
   // tune speed for testing
-  var speed = 1
+  var speed = 5
   
   // lay a navigation route
   var birdRoute = {
@@ -38,6 +38,10 @@
         [ -73.21851253509521, 44.47348 ],
         [ -73.21874856948851, 44.47686492494367 ],
         [ -73.21411371231079, 44.47704865384501 ],
+        [ -73.2143497467041, 44.47924570046781 ],
+        [ -73.21117401123045, 44.47935287135765 ],
+        [ -73.21099162101746, 44.475999860259215 ],
+        [ -73.21401715278625, 44.47588502769975 ],
         [ -73.21353435516357, 44.47649746540553 ]
       ]
     }
@@ -81,10 +85,27 @@
       speed: 0.08 * speed,
       curve: 1
     },
-    "layers": ["bird-tiles"],
     "repaint": [
-      "raster-opacity",
-      [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 1 ]
+      { "layer": "bird-tiles", "property": "raster-opacity", "value": 1 },
+      { "layer": "sanborn-tiles", "property": "raster-opacity", "value": 0 },
+      { "layer": "bird-route", "property": "line-opacity", "value": 0 },
+      { "layer": "Religious", "property": "fill-extrusion-opacity", "value": 0 },
+      { "layer": "Residential", "property": "fill-extrusion-opacity", "value": 0 },
+      { "layer": "Special", "property": "fill-extrusion-opacity", "value": 0 },
+      { "layer": "road-label-large", "property": "text-opacity", "value": 0 },
+      { "layer": "road-label-medium", "property": "text-opacity", "value": 0 },
+      { "layer": "road-label-small", "property": "text-opacity", "value": 0 },
+      { "layer": "place-neighbourhood", "property": "text-opacity", "value": 0 },
+      { "layer": "rail-station-label", "property": "text-opacity", "value": 0 },
+      { "layer": "ferry-label", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-large", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-parks-large", "property": "text-opacity", "value": 0 },
+      { "layer": "water-label", "property": "text-opacity", "value": 0 },
+      { "layer": "waterway-label", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-medium", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-parks-medium", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-parks-small", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-small", "property": "text-opacity", "value": 0 }
     ]
   }, {
     "id": "1a",
@@ -96,8 +117,6 @@
       speed: 0.08 * speed,
       curve: 1
     },
-    "layers": ["bird-route"],
-    "repaint": ["line-opacity", 0]
   }, {
     "id": "2",
     "camera": {
@@ -107,9 +126,7 @@
       bearing: -2.8,
       speed: 0.08 * speed,
       curve: 1
-    },
-    "layers": ["Religious", "Residential", "Special", "road-label-large", "road-label-medium", "road-label-small"],
-    "relayout": [ "visibility", "none" ]
+    }
   }, {
     "id": "3",
     "camera": {
@@ -120,8 +137,11 @@
       speed: 0.05 * speed,
       curve: 1
     },
-    "layers": ["Religious", "Residential", "Special"],
-    "relayout": [ "visibility", "visible" ]
+    "repaint": [
+      { "layer": "Religious", "property": "fill-extrusion-opacity", "value": 0.8 },
+      { "layer": "Residential", "property": "fill-extrusion-opacity", "value": 0.8 },
+      { "layer": "Special", "property": "fill-extrusion-opacity", "value": 0.8 }
+    ]
   }, {
     "id": "4",
     "camera": {
@@ -132,12 +152,11 @@
       pitch: 45,
       bearing: 57
     },
-    "layers": ["bird-tiles"],
     "repaint": [
-      "raster-opacity",
-      [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 0 ]
+      { "layer": "bird-tiles", "property": "raster-opacity", "value": [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 0 ]},
+      { "layer": "bird-route", "property": "line-opacity", "value": 0.8}
     ]
-    // begin running the nav route:
+    // begin running the nav route, swapped to 2018 view:
   }, {
     "id": "5",
     "camera": {
@@ -147,9 +166,7 @@
       curve: 1,
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[0]),turf.point(birdRoute.geometry.coordinates[1]))
-    },
-    "layers": ["bird-route"],
-    "repaint": [ "line-opacity", 0.8 ]
+    }
   }, {
     "id": "6",
     "camera": {
@@ -160,10 +177,21 @@
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[1]),turf.point(birdRoute.geometry.coordinates[2]))
     },
-    "layers": ["road-label-large", "road-label-medium", "road-label-small"],
-    "relayout": [
-      "visibility",
-      "visible"
+    "repaint": [
+      { "layer": "road-label-large", "property": "text-opacity", "value": 1 },
+      { "layer": "road-label-medium", "property": "text-opacity", "value": 1 },
+      { "layer": "road-label-small", "property": "text-opacity", "value": 1 },
+      { "layer": "place-neighbourhood", "property": "text-opacity", "value": 1 },
+      { "layer": "rail-station-label", "property": "text-opacity", "value": 1 },
+      { "layer": "ferry-label", "property": "text-opacity", "value": 1 },
+      { "layer": "poi-large", "property": "text-opacity", "value": 1 },
+      { "layer": "poi-parks-large", "property": "text-opacity", "value": 1 },
+      { "layer": "water-label", "property": "text-opacity", "value": 1 },
+      { "layer": "waterway-label", "property": "text-opacity", "value": 1 },
+      { "layer": "poi-medium", "property": "text-opacity", "value": 1 },
+      { "layer": "poi-parks-medium", "property": "text-opacity", "value": 1 },
+      { "layer": "poi-parks-small", "property": "text-opacity", "value": 1 },
+      { "layer": "poi-small", "property": "text-opacity", "value": 1 }
     ]
   }, {
     "id": "7",
@@ -185,6 +213,7 @@
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[3]),turf.point(birdRoute.geometry.coordinates[4]))
     }
+    // switch to sanborn view:
   }, {
     "id": "9",
     "camera": {
@@ -194,6 +223,66 @@
       curve: 0.2,
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[4]),turf.point(birdRoute.geometry.coordinates[5]))
+    },
+    "repaint": [
+      { "layer": "sanborn-tiles", "property": "raster-opacity", "value": 1 },
+      { "layer": "Religious", "property": "fill-extrusion-opacity", "value": 0 },
+      { "layer": "Residential", "property": "fill-extrusion-opacity", "value": 0 },
+      { "layer": "Special", "property": "fill-extrusion-opacity", "value": 0 },
+      { "layer": "road-label-large", "property": "text-opacity", "value": 0 },
+      { "layer": "road-label-medium", "property": "text-opacity", "value": 0 },
+      { "layer": "road-label-small", "property": "text-opacity", "value": 0 },
+      { "layer": "place-neighbourhood", "property": "text-opacity", "value": 0 },
+      { "layer": "rail-station-label", "property": "text-opacity", "value": 0 },
+      { "layer": "ferry-label", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-large", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-parks-large", "property": "text-opacity", "value": 0 },
+      { "layer": "water-label", "property": "text-opacity", "value": 0 },
+      { "layer": "waterway-label", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-medium", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-parks-medium", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-parks-small", "property": "text-opacity", "value": 0 },
+      { "layer": "poi-small", "property": "text-opacity", "value": 0 }
+    ]
+  }, {
+    "id": "10",
+    "camera": {
+      center: birdRoute.geometry.coordinates[5],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 0.2,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[5]),turf.point(birdRoute.geometry.coordinates[6]))
+    }
+  }, {
+    "id": "11",
+    "camera": {
+      center: birdRoute.geometry.coordinates[6],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 0.2,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[6]),turf.point(birdRoute.geometry.coordinates[7]))
+    }
+  }, {
+    "id": "12",
+    "camera": {
+      center: birdRoute.geometry.coordinates[7],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 0.2,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[7]),turf.point(birdRoute.geometry.coordinates[8]))
+    }
+  }, {
+    "id": "13",
+    "camera": {
+      center: birdRoute.geometry.coordinates[8],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 0.2,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[8]),turf.point(birdRoute.geometry.coordinates[9]))
     }
   }]
   
@@ -216,19 +305,18 @@
       locations[i].camera
     );
     map.once('moveend', function() {
-      if (locations[i].layers) {
-        for (var l = 0; l < locations[i].layers.length; l++) {
-          if (locations[i].repaint) {
-            map.setPaintProperty(locations[i].layers[l], locations[i].repaint[0], locations[i].repaint[1]);
-          } else if (locations[i].relayout) {
-            map.setLayoutProperty(locations[i].layers[l], locations[i].relayout[0], locations[i].relayout[1]);
-          }
+      // check for layer style changes, make them if any exist
+      if (locations[i].repaint) {
+        for (var l = 0; l < locations[i].repaint.length; l++) {
+          map.setPaintProperty(locations[i].repaint[l].layer, locations[i].repaint[l].property, locations[i].repaint[l].value);
         }
       }
+      map.getPaintProperty('poi-large','text-opacity')
+      // pause for a second
       window.setTimeout(function() {
         i = (i + 1 === locations.length) ? 0 : i + 1;
         playback(i);
-      }, 1000);
+      }, (5000 / speed));
     });
   }
   
@@ -264,8 +352,9 @@
       "source": "sanborn",
       "minzoom": 0,
       "maxzoom": 22,
-      "layout": {
-        "visibility": "none"
+      "paint": {
+        "raster-opacity": 0,
+        "raster-opacity-transition": { "duration": 4000 / speed}
       }
     }, 'bird-tiles')
     
@@ -285,9 +374,9 @@
           "line-color": "#5CACEE",
           "line-width": 15,
           "line-opacity": 0,
-          "line-opacity-transition": { "duration": 1000 }
+          "line-opacity-transition": { "duration": 2000 / speed}
         }
-    }, 'border-admin-2');
+    }, 'bird-tiles');
     playback(1);
   });
 </script>
