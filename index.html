@@ -21,81 +21,26 @@
 <div id='map'></div>
 <!--<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>-->
 <script src='lib/mapbox-gl.js'></script>
+<script src='lib/turf.min.js' charset='utf-8'></script>
 <script>
-  var locations = [{
-    "id": "2",
-    "camera": {
-      center: [-73.213544, 44.476507],
-      zoom: 16,
-      pitch: 0,
-      bearing: -2.8,
-      speed: 0.08,
-      curve: 1
-    }
-  }, {
-    "id": "3",
-    "camera": {
-      center: [-73.213544, 44.476507],
-      zoom: 15,
-      pitch: 50,
-      bearing: 178,
-      speed: 0.05,
-      curve: 1
-    }
-  }, {
-    "id": "4",
-    "camera": {
-      center: [-73.213544, 44.476507],
-      zoom: 14,
-      speed: 0.01,
-      curve: 1.5,
-      pitch: 60,
-      bearing: 57
-    },
-    "layers": ["bird-tiles"],
-    "repaint": [
-      "raster-opacity",
-      [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 0 ]
-    ]
-  }]
+  // tune speed for testing
+  var speed = 5
   
-  var route = {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": {},
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [
-              -73.21497201919556,
-              44.467141778662125
-            ],
-            [
-              -73.21546554565428,
-              44.47358832905586
-            ],
-            [
-              -73.21851253509521,
-              44.47351177087768
-            ],
-            [
-              -73.21874856948851,
-              44.47686492494367
-            ],
-            [
-              -73.21411371231079,
-              44.47704865384501
-            ],
-            [
-              -73.21353435516357,
-              44.47649746540553
-            ]
-          ]
-        }
-      }
-    ]
+  // lay a navigation route
+  var birdRoute = {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [ -73.21497201919556, 44.467141778662125 ],
+        [ -73.215425, 44.47358832905586 ],
+        [ -73.21851253509521, 44.47348 ],
+        [ -73.21874856948851, 44.47686492494367 ],
+        [ -73.21411371231079, 44.47704865384501 ],
+        [ -73.21353435516357, 44.47649746540553 ]
+      ]
+    }
   }
 
   var startPoint = {
@@ -106,10 +51,7 @@
         "properties": {},
         "geometry": {
           "type": "Point",
-          "coordinates": [
-            -73.21497201919556,
-            44.46713603616803
-          ]
+          "coordinates": birdRoute.geometry.coordinates[0]
         }
       }
     ]
@@ -122,15 +64,137 @@
         "properties": {},
         "geometry": {
           "type": "Point",
-          "coordinates": [
-            -73.21353435516357,
-            44.47651469012308
-          ]
+          "coordinates": birdRoute.geometry.coordinates[birdRoute.geometry.coordinates.length - 1]
         }
       }
     ]
   }
 
+  // define locations, including the nav route
+  var locations = [{
+    "id": "1",
+    "camera": {
+      center: [-73.213544, 44.476507],
+      zoom: 19,
+      pitch: 0,
+      bearing: -2.8,
+      speed: 0.08 * speed,
+      curve: 1
+    },
+    "layers": ["bird-tiles"],
+    "repaint": [
+      "raster-opacity",
+      [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 1 ]
+    ]
+  }, {
+    "id": "2",
+    "camera": {
+      center: [-73.213544, 44.476507],
+      zoom: 16,
+      pitch: 35,
+      bearing: -2.8,
+      speed: 0.08 * speed,
+      curve: 1
+    },
+    "layers": ["bird-route", "Religious", "Residential", "Special", "road-label-large", "road-label-medium", "road-label-small"],
+    "relayout": [
+      "visibility",
+      "none"
+    ]
+  }, {
+    "id": "3",
+    "camera": {
+      center: [-73.213544, 44.476507],
+      zoom: 15,
+      pitch: 45,
+      bearing: 178,
+      speed: 0.05 * speed,
+      curve: 1
+    },
+    "layers": ["Religious", "Residential", "Special"],
+    "relayout": [
+      "visibility",
+      "visible"
+    ]
+  }, {
+    "id": "4",
+    "camera": {
+      center: [ -73.215425, 44.47358832905586 ],
+      zoom: 14,
+      speed: 0.01 * speed,
+      curve: 1.5,
+      pitch: 45,
+      bearing: 57
+    },
+    "layers": ["bird-tiles"],
+    "repaint": [
+      "raster-opacity",
+      [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 0 ]
+    ]
+  }, {
+    "id": "5",
+    "camera": {
+      center: birdRoute.geometry.coordinates[0],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 1.5,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[0]),turf.point(birdRoute.geometry.coordinates[1]))
+    },
+    "layers": ["bird-route"],
+    "relayout": [
+      "visibility",
+      "visible"
+    ]
+  }, {
+    "id": "6",
+    "camera": {
+      center: birdRoute.geometry.coordinates[1],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 1.5,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[1]),turf.point(birdRoute.geometry.coordinates[2]))
+    },
+    "layers": ["road-label-large", "road-label-medium", "road-label-small"],
+    "relayout": [
+      "visibility",
+      "visible"
+    ]
+  }, {
+    "id": "7",
+    "camera": {
+      center: birdRoute.geometry.coordinates[2],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 1.5,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[2]),turf.point(birdRoute.geometry.coordinates[3]))
+    }
+  }, {
+    "id": "8",
+    "camera": {
+      center: birdRoute.geometry.coordinates[3],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 1.5,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[3]),turf.point(birdRoute.geometry.coordinates[4]))
+    }
+  }, {
+    "id": "9",
+    "camera": {
+      center: birdRoute.geometry.coordinates[4],
+      zoom: 18,
+      speed: 0.05 * speed,
+      curve: 1.5,
+      pitch: 60,
+      bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[4]),turf.point(birdRoute.geometry.coordinates[5]))
+    }
+  }]
+  
+  //console.log(turf.bearing(turf.point(birdRoute.geometry.coordinates[0]),turf.point(birdRoute.geometry.coordinates[1])))
+  
   mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2prY3MzYngzMGNsdTNrcW0yM3doaXplOSJ9.796so4xYNFZW4UK5lOgapw';
   var map = new mapboxgl.Map({
       style: 'mapbox://styles/landplanner/cjmjvl3jl074u2sru0wd4hl2n',
@@ -138,7 +202,8 @@
       zoom: 19,
       pitch: 0,
       bearing: -2.8,
-      container: 'map'
+      container: 'map',
+      //hash: true
   });
   
   function playback(i) {
@@ -149,7 +214,11 @@
     map.once('moveend', function() {
       if (locations[i].layers) {
         for (var l = 0; l < locations[i].layers.length; l++) {
-          map.setPaintProperty(locations[i].layers[l], locations[i].repaint[0], locations[i].repaint[1]);
+          if (locations[i].repaint) {
+            map.setPaintProperty(locations[i].layers[l], locations[i].repaint[0], locations[i].repaint[1]);
+          } else if (locations[i].relayout) {
+            map.setLayoutProperty(locations[i].layers[l], locations[i].relayout[0], locations[i].relayout[1]);
+          }
         }
       }
       window.setTimeout(function() {
@@ -163,23 +232,58 @@
     
     map.addControl(new mapboxgl.NavigationControl());
     
-    map.addSource('sanborn', {
+    // add birds-eye map
+    map.addSource('birdseye', {
       "type": "raster",
       "tileSize": 256,
       "tiles": ["https://mapwarper.net/maps/tile/33964/{z}/{x}/{y}.png"]
-      // Sanborn:
-      //"tiles": ["https://mapwarper.net/mosaics/tile/983/{z}/{x}/{y}.png"]
     });
     
     map.addLayer({
       "id": "bird-tiles",
       "type": "raster",
-      "source": "sanborn",
+      "source": "birdseye",
       "minzoom": 0,
       "maxzoom": 22
-    }, 'border-admin-2')
+    }, 'country-large')
     
-    playback(0);
+    // add sanborn maps
+    map.addSource('sanborn', {
+      "type": "raster",
+      "tileSize": 256,
+      "tiles": ["https://mapwarper.net/mosaics/tile/983/{z}/{x}/{y}.png"]
+    });
+    
+    map.addLayer({
+      "id": "sanborn-tiles",
+      "type": "raster",
+      "source": "sanborn",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "layout": {
+        "visibility": "none"
+      }
+    }, 'bird-tiles')
+    
+    // add nav route
+    map.addLayer({
+        "id": "bird-route",
+        "type": "line",
+        "source": {
+          "type": "geojson",
+          "data": birdRoute
+        },
+        "layout": {
+          "line-join": "round",
+          "line-cap": "round",
+          "visibility": "none"
+        },
+        "paint": {
+          "line-color": "#5CACEE",
+          "line-width": 12
+        }
+    }, 'border-admin-2');
+    playback(1);
   });
 </script>
 
