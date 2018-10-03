@@ -77,7 +77,7 @@
       center: [-73.213544, 44.476507],
       zoom: 19,
       pitch: 0,
-      bearing: -2.8,
+      bearing: 57,
       speed: 0.08 * speed,
       curve: 1
     },
@@ -86,6 +86,16 @@
       "raster-opacity",
       [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 1 ]
     ]
+  }, {
+    "id": "1a",
+    "camera": {
+      center: [-73.213544, 44.476507],
+      zoom: 17,
+      pitch: 0,
+      bearing: 57,
+      speed: 0.08 * speed,
+      curve: 1
+    }
   }, {
     "id": "2",
     "camera": {
@@ -120,7 +130,7 @@
     "id": "4",
     "camera": {
       center: [ -73.215425, 44.47358832905586 ],
-      zoom: 14,
+      zoom: 12,
       speed: 0.01 * speed,
       curve: 1.5,
       pitch: 45,
@@ -131,13 +141,14 @@
       "raster-opacity",
       [ "interpolate", ["linear"], ["zoom"], 14, 1, 16, 0 ]
     ]
+    // begin running the nav route:
   }, {
     "id": "5",
     "camera": {
       center: birdRoute.geometry.coordinates[0],
       zoom: 18,
       speed: 0.05 * speed,
-      curve: 1.5,
+      curve: 1,
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[0]),turf.point(birdRoute.geometry.coordinates[1]))
     },
@@ -152,7 +163,7 @@
       center: birdRoute.geometry.coordinates[1],
       zoom: 18,
       speed: 0.05 * speed,
-      curve: 1.5,
+      curve: 0.2,
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[1]),turf.point(birdRoute.geometry.coordinates[2]))
     },
@@ -167,7 +178,7 @@
       center: birdRoute.geometry.coordinates[2],
       zoom: 18,
       speed: 0.05 * speed,
-      curve: 1.5,
+      curve: 0.2,
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[2]),turf.point(birdRoute.geometry.coordinates[3]))
     }
@@ -177,7 +188,7 @@
       center: birdRoute.geometry.coordinates[3],
       zoom: 18,
       speed: 0.05 * speed,
-      curve: 1.5,
+      curve: 0.2,
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[3]),turf.point(birdRoute.geometry.coordinates[4]))
     }
@@ -187,7 +198,7 @@
       center: birdRoute.geometry.coordinates[4],
       zoom: 18,
       speed: 0.05 * speed,
-      curve: 1.5,
+      curve: 0.2,
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[4]),turf.point(birdRoute.geometry.coordinates[5]))
     }
@@ -201,7 +212,7 @@
       center: [-73.213544, 44.476507],
       zoom: 19,
       pitch: 0,
-      bearing: -2.8,
+      bearing: 57,
       container: 'map',
       //hash: true
   });
