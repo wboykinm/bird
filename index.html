@@ -24,7 +24,7 @@
 <script src='lib/turf.min.js' charset='utf-8'></script>
 <script>
   // tune speed for testing
-  var speed = 5
+  var speed = 1
   
   // lay a navigation route
   var birdRoute = {
@@ -138,9 +138,9 @@
       curve: 1
     },
     "repaint": [
-      { "layer": "Religious", "property": "fill-extrusion-opacity", "value": 0.8 },
-      { "layer": "Residential", "property": "fill-extrusion-opacity", "value": 0.8 },
-      { "layer": "Special", "property": "fill-extrusion-opacity", "value": 0.8 }
+      { "layer": "Religious", "property": "fill-extrusion-opacity", "value": 0.6 },
+      { "layer": "Residential", "property": "fill-extrusion-opacity", "value": 0.6 },
+      { "layer": "Special", "property": "fill-extrusion-opacity", "value": 0.6 }
     ]
   }, {
     "id": "4",
@@ -322,7 +322,27 @@
   
   map.on('load', function() {
     
+    // add nav controls
     map.addControl(new mapboxgl.NavigationControl());
+    
+    // awkwardly add a bunch of transition properties:
+    map.setPaintProperty("Religious","fill-extrusion-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("Residential","fill-extrusion-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("Special","fill-extrusion-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("road-label-large","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("road-label-medium","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("road-label-small","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("place-neighbourhood","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("rail-station-label","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("ferry-label","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("poi-large","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("poi-parks-large","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("water-label","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("waterway-label","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("poi-medium","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("poi-parks-medium","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("poi-parks-small","text-opacity-transition",{ "duration": (2000 / speed) })
+    map.setPaintProperty("poi-small","text-opacity-transition",{ "duration": (2000 / speed) })
     
     // add birds-eye map
     map.addSource('birdseye', {
