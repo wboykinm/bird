@@ -159,7 +159,7 @@
     "camera": {
       center: [ -73.215425, 44.47358832905586 ],
       zoom: 13,
-      speed: 0.03 * speed,
+      speed: 0.05 * speed,
       curve: 1.42,
       pitch: 45,
       bearing: 57
@@ -199,10 +199,7 @@
       curve: 0.5,
       pitch: 60,
       bearing: turf.bearing(turf.point(birdRoute.geometry.coordinates[2]),turf.point(birdRoute.geometry.coordinates[3]))
-    },
-    "repaint": [
-      { "layer": "bird-route", "property": "line-opacity", "value": 0.8}
-    ]
+    }
   }, {
     "id": "8",
     "camera": {
@@ -236,6 +233,7 @@
     },
     "year": "2018",
     "repaint": [
+      { "layer": "bird-route", "property": "line-opacity", "value": 0.8},
       { "layer": "sanborn-tiles", "property": "raster-opacity", "value": 0 },
       { "layer": "Religious", "property": "fill-extrusion-opacity", "value": 0.6 },
       { "layer": "Residential", "property": "fill-extrusion-opacity", "value": 0.6 },
