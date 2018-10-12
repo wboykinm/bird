@@ -64,5 +64,8 @@ typings/
 *.DS_Store
 *.tif*
 *.jp2
-data/
+data/sanborn
+data/osm
+data/birdseye
+data/tmp
 
