@@ -5,6 +5,7 @@
     <title>Birdseye #BTV</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link href='lib/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='lib/mapbox-gl-compare.css' type='text/css' />
     <style>
       #map { position:absolute; top:0; bottom:0; width:100%; }
       body { 
@@ -45,7 +46,7 @@ body * {
     bottom: 0;
     width: 100%;
 }
-#info {
+.info {
   display: block;
   position: absolute;
   margin: 0px auto;
@@ -58,21 +59,20 @@ body * {
   color: #222;
   background: rgba(255,255,255,0.3);
 }
-.old {
+#old {
   left: 10%;
 }
-.new {
+#new {
   right: 10%;
 }
 </style>
 <script src='lib/mapbox-gl.js'></script>
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+<script src='lib/mapbox-gl-compare.js'></script>
 
 <div id='before' class='map'></div>
 <div id='after' class='map'></div>
-<pre id='info' class='old'>1877</pre>
-<pre id='info' class='new'>2018</pre>
+<pre id='old' class='info'>1877</pre>
+<pre id='new' class='info'>2018</pre>
 
 <script>
   mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoiY2prY3MzYngzMGNsdTNrcW0yM3doaXplOSJ9.796so4xYNFZW4UK5lOgapw';
@@ -80,7 +80,7 @@ body * {
     container: 'before',
     style: 'mapbox://styles/landplanner/cjmuzwwwr08lj2sp2jghag8ir',
     center: [-73.213544, 44.476507],
-    zoom: 17.5,
+    zoom: 17,
     pitch: 60,
     bearing: 57,
     hash: true,
@@ -97,7 +97,7 @@ body * {
     container: 'after',
     style: 'mapbox://styles/landplanner/cjmuz5ury3tf92rnu7k5lxij2',
     center: [-73.213544, 44.476507],
-    zoom: 17.5,
+    zoom: 17,
     pitch: 60,
     bearing: 57,
     hash: true,
