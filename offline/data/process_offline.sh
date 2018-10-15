@@ -17,22 +17,14 @@ csvstack btv_12.csv btv_13.csv btv_14.csv btv_15.csv btv_16.csv btv_17.csv btv_1
 cd ../
 
 # vectors
-#TOKEN=<TOKEN>
-#while read p
-#do
-  #x=$(echo $p | csvcut -c 1)
-  #y=$(echo $p | csvcut -c 2)
-  #z=$(echo $p | csvcut -c 3)
-#  curl https://a.tiles.mapbox.com/v4/mapbox.mapbox-streets-v7,mapbox.mapbox-terrain-v2/$z/$x/$y.vector.pbf?access_token=$TOKEN --create-dirs -o vector/$z/$x/$y.vector.pbf
-#done < tmp/btv.csv
 
-# leeeeeeeets try something else
 # (this, specifically: https://github.com/systemed/tilemaker)
 brew install protobuf boost lua51 shapelib
 cd ~/github/tilemaker/
 wget -c http://download.geofabrik.de/north-america/us/vermont-latest.osm.pbf
+# set config compression to "none", add building height field
 tilemaker vermont-latest.osm.pbf --output=osm/
-cp -r osm/ ~/github/bird/data/vector/
+cp -r osm/ ~/github/bird/offline/data/vector/
 
 # b&w sat bases
 while read p
